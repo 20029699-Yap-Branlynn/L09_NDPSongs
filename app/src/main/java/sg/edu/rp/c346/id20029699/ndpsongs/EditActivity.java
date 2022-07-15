@@ -15,10 +15,8 @@ import android.widget.Toast;
 
 public class EditActivity extends AppCompatActivity {
 
-    TextView tvSong, tvSinger, tvYear, tvStar;
-    EditText etSong;
-    EditText etSinger;
-    EditText etYear;
+    TextView tvSong, tvSinger, tvYear, tvStar, tvID;
+    EditText etSong, etSinger, etYear, etID;
     RadioGroup radioGrp;
     RadioButton btn1, btn2, btn3, btn4, btn5;
     Button updateBtn, deleteBtn, cancelBtn;
@@ -45,8 +43,17 @@ public class EditActivity extends AppCompatActivity {
         deleteBtn = findViewById(R.id.deleteButton);
         cancelBtn = findViewById(R.id.cancelButton);
 
+        tvID = findViewById(R.id.tvID);
+        etID = findViewById(R.id.etID);
+
         Intent a = getIntent();
         edit = (Song) a.getSerializableExtra("edit");
+
+        etID.setText(edit.getId()+"");
+        etSong.setText(edit.getTitle());
+        etSinger.setText(edit.getSinger());
+        etYear.setText(edit.getYear()+"");
+        radioGrp.check(edit.getStars());
 
         updateBtn.setOnClickListener(new View.OnClickListener() {
             @Override

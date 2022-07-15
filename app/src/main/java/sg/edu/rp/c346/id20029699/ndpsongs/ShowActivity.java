@@ -38,6 +38,15 @@ public class ShowActivity extends AppCompatActivity {
         aa = new ArrayAdapter<Song>(this, android.R.layout.simple_list_item_1, al);
         lv.setAdapter(aa);
 
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long identity) {
+                Song data = al.get(position); //user can select song to edit
+                Intent i = new Intent(ShowActivity.this, EditActivity.class);
+                i.putExtra("data", data);
+                startActivity(i);
+            }
+        });
 
         showStarBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,14 +87,5 @@ public class ShowActivity extends AppCompatActivity {
             }
         });
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long identity) {
-                Song data = al.get(position); //user can select song to edit
-                Intent i = new Intent(ShowActivity.this, EditActivity.class);
-                i.putExtra("data", data);
-                startActivity(i);
-            }
-        });
     };
 }
