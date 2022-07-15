@@ -2,6 +2,8 @@ package sg.edu.rp.c346.id20029699.ndpsongs;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.media.browse.MediaBrowser;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.View;
@@ -15,7 +17,7 @@ import java.util.ArrayList;
 
 public class ShowActivity extends AppCompatActivity {
 
-    Button showstarBtn;
+    Button showStarBtn;
     ListView lv;
     ArrayAdapter<Song> aa;
     ArrayList<Song> al;
@@ -27,7 +29,7 @@ public class ShowActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show);
 
-        showstarBtn = findViewById(R.id.starbutton);
+        showStarBtn = findViewById(R.id.starbutton);
         lv = findViewById(R.id.list);
         spinner = findViewById(R.id.spinner);
 
@@ -37,7 +39,7 @@ public class ShowActivity extends AppCompatActivity {
         lv.setAdapter(aa);
 
 
-        showstarBtn.setOnClickListener(new View.OnClickListener() {
+        showStarBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 al.clear();
@@ -75,6 +77,15 @@ public class ShowActivity extends AppCompatActivity {
 
             }
         });
-    };
 
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long identity) {
+                Song data = al.get(position); //user can select song to edit
+                Intent i = new Intent(ShowActivity.this, EditActivity.class);
+                i.putExtra("data", data);
+                startActivity(i);
+            }
+        });
+    };
 }

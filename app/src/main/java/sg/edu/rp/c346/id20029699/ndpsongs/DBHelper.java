@@ -143,5 +143,28 @@ public class DBHelper extends SQLiteOpenHelper {
         return al;
         //return getStar;
     }
+
+    public int updateSong(Song edit){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_SONG_TITLE, edit.getTitle());
+        values.put(COLUMN_SONG_SINGER, edit.getSinger());
+        values.put(COLUMN_SONG_YEAR, edit.getYear());
+        values.put(COLUMN_SONG_STARS, edit.getStars());
+        String condition = COLUMN_ID + "= ?";
+        String[] args = {String.valueOf(edit.getId())};
+        int result = db.update(TABLE_SONG, values, condition, args);
+        db.close();
+        return result;
+    }
+
+    public int deleteSong(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String condition = COLUMN_ID + "= ?";
+        String[] args = {String.valueOf(id)};
+        int result = db.delete(TABLE_SONG, condition, args);
+        db.close();
+        return result;
+    }
 }
 

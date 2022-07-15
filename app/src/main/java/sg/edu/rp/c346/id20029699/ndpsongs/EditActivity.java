@@ -22,7 +22,7 @@ public class EditActivity extends AppCompatActivity {
     RadioGroup radioGrp;
     RadioButton btn1, btn2, btn3, btn4, btn5;
     Button updateBtn, deleteBtn, cancelBtn;
-
+    Song edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,42 +45,29 @@ public class EditActivity extends AppCompatActivity {
         deleteBtn = findViewById(R.id.deleteButton);
         cancelBtn = findViewById(R.id.cancelButton);
 
+        Intent a = getIntent();
+        edit = (Song) a.getSerializableExtra("edit");
+
         updateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                DBHelper dbh = new DBHelper(EditActivity.this);
+                edit.setTitle(etSong.getText().toString());
+                edit.setSinger(etSong.getText().toString());
+                edit.setYear(Integer.parseInt(etYear.getText().toString()));
+                edit.setStars(radioGrp.getCheckedRadioButtonId());
+                dbh.updateSong(edit);
+                dbh.close();
+                Toast.makeText(EditActivity.this, "Update Successful", Toast.LENGTH_SHORT).show();
+                clear();
             }
         });
 
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String titleData = etSong.getText().toString();
-                String singerData = etSinger.getText().toString();
-                int yearData = Integer.parseInt(etYear.getText().toString());
-                int starNum = radioGrp.getCheckedRadioButtonId();
-
-                int starData = -1;
-                if (starNum == R.id.radioButton1){
-                    starData = 1;
-                }else if (starNum == R.id.radioButton2){
-                    starData = 2;
-                }else if (starNum == R.id.radioButton3){
-                    starData = 3;
-                }else if (starNum == R.id.radioButton4){
-                    starData = 4;
-                }else if (starNum ==R.id.radioButton5){
-                    starData = 5;
-                }
-
                 DBHelper dbh = new DBHelper(EditActivity.this);
-                long inserted_id = dbh.insertSong(titleData,singerData, yearData, starData);
-
-                if (inserted_id != -1){
-                    Toast.makeText(EditActivity.this, "Insert successful",
-                            Toast.LENGTH_SHORT).show();
-                    clear();
-                }
+                dbh.deleteSong(edit.getId());
             }
         });
 
